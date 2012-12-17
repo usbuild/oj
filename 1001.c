@@ -75,21 +75,23 @@ char* calc(const char *oa, const char *ob)
 
     if(point_pos > 0) o[t] += '0';
     
-    //char *tmp = o;
     while(*o == '0' && *o != '.' && ++o);
     char *tmp = o + strlen(o) - 1;
-    while(*tmp == '0') {
-        *tmp = 0;
-        --tmp;
+
+    if(point_pos > 0) {
+        while(*tmp == '0') {
+            *tmp = 0;
+            --tmp;
+        }
+        if(*tmp == '.') *tmp = 0;
     }
-    if(*tmp == '.') *tmp = 0;
     return o;
 }
 
 char* 
 recur(const char *s, int n) {
     if(n == 0) return strdup("1");
-    else if(n == 1) return strdup(s);
+    else if(n == 1) return calc(s, "1");
     else return calc(recur(s, n / 2), recur(s, n - n / 2));
 }
 
@@ -99,7 +101,9 @@ int main(int argc, const char *argv[])
     memset(s, 0, 8);
     int n;
     while(scanf("%s%d",s,&n)==2) {
-        puts(recur(s, n));
+        char *o = recur(s, n);
+        if(*o == 0) o ="0";
+        puts(o);
     }
     return 0;
 }
