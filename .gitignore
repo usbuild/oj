@@ -1,3 +1,7 @@
+input
+output
+*.out
+*.exe
 # Compiled Object files
 *.slo
 *.lo
